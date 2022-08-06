@@ -1,7 +1,15 @@
-#include <LiquidCrystal_I2C.h>
-#include <Wire.h>
+/**
+ * @file main.cpp
+ * @author Cendekia Leadership School (info@cls.sch.id)
+ * @version 1.0
+ * @date 2022-08-06
+ * @copyright Copyright (c) 2022 Cendekia Leadership School. MIT License
+ * 
+ */
 
 #include "Arduino.h"
+#include <Wire.h>
+#include <LiquidCrystal_I2C.h>
 
 LiquidCrystal_I2C lcd(0x3F, 16, 9);
 
@@ -43,14 +51,13 @@ void setup() {
 
 void nextRound() {
 	currentPlayer = 0;
+
 	digitalWrite(p1_lamp, LOW);
 	digitalWrite(p2_lamp, LOW);
 	digitalWrite(p3_lamp, LOW);
 
-
 	lcd.setCursor(0, 1);
 	lcd.print("                ");
-
 	lcd.setCursor(2, 1);
 	lcd.print((p1_score < 10 && p1_score >= 0) ? "0" + String(p1_score)
 											  : p1_score);
@@ -71,6 +78,7 @@ void loop() {
 		digitalWrite(p1_lamp, HIGH);
 		tone(bell, 2000, 500);
 	}
+
 	if (digitalRead(p2_btn) == LOW) {
 		if (currentPlayer != 0 && currentPlayer != 2) {
 			return;
@@ -79,6 +87,7 @@ void loop() {
 		digitalWrite(p2_lamp, HIGH);
 		tone(bell, 2000, 500);
 	}
+
 	if (digitalRead(p3_btn) == LOW) {
 		if (currentPlayer != 0 && currentPlayer != 3) {
 			return;
@@ -87,12 +96,6 @@ void loop() {
 		digitalWrite(p3_lamp, HIGH);
 		tone(bell, 2000, 500);
 	}
-
-	//   if (buttonState != lastButtonState) {
-	//     if (buttonState == LOW) {
-	//     }
-	//   }
-	//   lastButtonState = buttonState;
 
 	if (digitalRead(correct) != correct_lastState) {
 		if (digitalRead(correct) == LOW) {
