@@ -114,13 +114,13 @@ void loop() {
 
 	if (digitalRead(incorrect) != incorrect_lastState) {
 		if (digitalRead(incorrect) == LOW) {
-			if (currentPlayer == 1) {
-				p1_score--;
-			} else if (currentPlayer == 2) {
-				p2_score--;
-			} else if (currentPlayer == 3) {
-				p3_score--;
-			}
+			// if (currentPlayer == 1) {
+			// 	p1_score--;
+			// } else if (currentPlayer == 2) {
+			// 	p2_score--;
+			// } else if (currentPlayer == 3) {
+			// 	p3_score--;
+			// }
 			nextRound();
 		}
 	}
