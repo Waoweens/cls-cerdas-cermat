@@ -10,13 +10,14 @@
             "includePath": [
                 "/home/waoweens/Projects/cerdas-cermat/include",
                 "/home/waoweens/Projects/cerdas-cermat/src",
+                "/home/waoweens/Projects/cerdas-cermat/.pio/libdeps/uno/LiquidCrystal_I2C",
+                "/home/waoweens/.platformio/packages/framework-arduino-avr/libraries/Wire/src",
                 "/home/waoweens/.platformio/packages/framework-arduino-avr/cores/arduino",
                 "/home/waoweens/.platformio/packages/framework-arduino-avr/variants/standard",
                 "/home/waoweens/.platformio/packages/framework-arduino-avr/libraries/EEPROM/src",
                 "/home/waoweens/.platformio/packages/framework-arduino-avr/libraries/HID/src",
                 "/home/waoweens/.platformio/packages/framework-arduino-avr/libraries/SPI/src",
                 "/home/waoweens/.platformio/packages/framework-arduino-avr/libraries/SoftwareSerial/src",
-                "/home/waoweens/.platformio/packages/framework-arduino-avr/libraries/Wire/src",
                 ""
             ],
             "browse": {
@@ -24,13 +25,14 @@
                 "path": [
                     "/home/waoweens/Projects/cerdas-cermat/include",
                     "/home/waoweens/Projects/cerdas-cermat/src",
+                    "/home/waoweens/Projects/cerdas-cermat/.pio/libdeps/uno/LiquidCrystal_I2C",
+                    "/home/waoweens/.platformio/packages/framework-arduino-avr/libraries/Wire/src",
                     "/home/waoweens/.platformio/packages/framework-arduino-avr/cores/arduino",
                     "/home/waoweens/.platformio/packages/framework-arduino-avr/variants/standard",
                     "/home/waoweens/.platformio/packages/framework-arduino-avr/libraries/EEPROM/src",
                     "/home/waoweens/.platformio/packages/framework-arduino-avr/libraries/HID/src",
                     "/home/waoweens/.platformio/packages/framework-arduino-avr/libraries/SPI/src",
                     "/home/waoweens/.platformio/packages/framework-arduino-avr/libraries/SoftwareSerial/src",
-                    "/home/waoweens/.platformio/packages/framework-arduino-avr/libraries/Wire/src",
                     ""
                 ]
             },
