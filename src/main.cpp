@@ -76,7 +76,7 @@ void loop() {
 		}
 		currentPlayer = 1;
 		digitalWrite(p1_lamp, HIGH);
-		tone(bell, 2000, 500);
+		tone(bell, 1000, 500);
 	}
 
 	if (digitalRead(p2_btn) == LOW) {
@@ -94,7 +94,7 @@ void loop() {
 		}
 		currentPlayer = 3;
 		digitalWrite(p3_lamp, HIGH);
-		tone(bell, 2000, 500);
+		tone(bell, 3000, 500);
 	}
 
 	if (digitalRead(correct) != correct_lastState) {
