@@ -16,6 +16,10 @@
 			display: flex;
 			justify-content: center;
 			align-items: center;
+
+		}
+
+		.fc-space {
 			margin-top: 25px;
 			gap: 10px;
 		}
@@ -62,6 +66,7 @@
 			display: inline-block;
 			font-size: 16px;
 		}
+
 		.btn-incorrect {
 			background-color: #c04444;
 			/* Green */
@@ -74,10 +79,13 @@
 			font-size: 16px;
 		}
 	</style>
-	<script defer>
+	<script>
+
+
 		var gateway = `ws://192.168.0.106/ws`;
 		var websocket;
 		var scores;
+		var currentPlayer;
 		function initWebSocket() {
 			console.log('Trying to open a WebSocket connection...');
 			websocket = new WebSocket(gateway);
@@ -100,27 +108,59 @@
 			initWebSocket();
 		}
 
+
+
+		var scorePlusVal = 0;
+		var scoreNegativeVal = false;
+		var scoreMinusVal = 0;
+
+		document.addEventListener("DOMContentLoaded", () => {
+			var scorePlus = document.getElementById('scorePlus');
+			var scoreNegative = document.getElementById('scoreNegative');
+			var scoreMinus = document.getElementById('scoreMinus');
+
+			scorePlus.addEventListener('input', (e) => {
+				scorePlusVal = e.target.value;
+				console.log(scorePlusVal);
+			});
+			scoreNegative.addEventListener('change', (e) => {
+				scoreNegativeVal = e.target.checked;
+				console.log(scoreNegativeVal);
+			});
+
+			scoreMinus.addEventListener('input', (e) => {
+				scoreMinusVal = e.target.value;
+				console.log(scoreMinusVal);
+			});
+		});
+
+
+
+		function answer(type) {
+			// websocket.send(`${type},${scorePlusVal},${scoreNegativeVal},${scoreMinusVal}`);
+			websocket.send(type)
+		}
+
 		function onMessage(event) {
 			scores = JSON.parse(event.data);
+			currentPlayer = scores.currentPlayer;
 			console.log(scores);
-			if (scores.currentPlayer == 0) {
-				// delete class current-player from scores
-				document.getElementsByClassName('scores')
-					.forEach(score => {
-						score.classList.remove('current-player');
-					}
-					);
+
+			if (currentPlayer == 0) {
+				var elScores = document.getElementsByClassName('score');
+				for (let item of elScores) {
+					item.classList.remove('current-player');
+				}
+			} else {
+				document.getElementById(`p${currentPlayer}-score`).classList.add('current-player');
 			}
-			if (scores.currentPlayer == 1) document.getElementById('p1-score').classList.add('current-player');
-			if (scores.currentPlayer == 2) document.getElementById('p2-score').classList.add('current-player');
-			if (scores.currentPlayer == 3) document.getElementById('p3-score').classList.add('current-player');
-			if (scores.currentPlayer == 4) document.getElementById('p4-score').classList.add('current-player');
 
+			document.getElementById('p1-score').innerHTML = scores.scores[0];
+			document.getElementById('p2-score').innerHTML = scores.scores[1];
+			document.getElementById('p3-score').innerHTML = scores.scores[2];
+			document.getElementById('p4-score').innerHTML = scores.scores[3];
 		}
 
-		function correct() {
-
-		}
 	</script>
 </head>
 
@@ -136,10 +176,27 @@
 		<div id="p3-score" class="grid-content score">0</div>
 		<div id="p4-score" class="grid-content score">0</div>
 	</div>
-	<div class="flex-container">
-		<button onclick="correct()" class="btn-correct">Correct</button>
-		<button onclick="incorrect()" class="btn-incorrect">Incorrect</button>
+
+	<div class="flex-container fc-space">
+		<button onclick="answer('correct')" class="btn-correct">Correct</button>
+		<button onclick="answer('incorrect')" class="btn-incorrect">Incorrect</button>
 	</div>
+
+	<div class="flex-container fc-space">
+		<label for="scorePlus">Increase score by:</label>
+		<input type="text" id="scorePlus" name="scorePlus" value="10" disabled
+	</div>
+
+	<div class="flex-container fc-space">
+		<input type="checkbox" id="scoreNegative" name="scoreNegative" disabled>
+		<label for="scoreNegative">Decrease score on incorrect</label>
+	</div>
+
+	<div class="flex-container" style="margin-top: 5px;gap: 10px;">
+		<label for="scoreMinus">Decrease score by:</label>
+		<input type="text" id="scoreMinus" name="scoreMinus" value="10" disabled>
+	</div>
+
 </body>
 
 </html>
