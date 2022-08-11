@@ -50,12 +50,15 @@ void setup() {
 }
 
 void nextRound() {
+	// reset current player indicator
 	currentPlayer = 0;
 
+	// turn off all lamps
 	digitalWrite(p1_lamp, LOW);
 	digitalWrite(p2_lamp, LOW);
 	digitalWrite(p3_lamp, LOW);
 
+	// update score count
 	lcd.setCursor(0, 1);
 	lcd.print("                ");
 	lcd.setCursor(2, 1);

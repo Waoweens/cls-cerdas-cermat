@@ -8,9 +8,9 @@
         {
             "name": "PlatformIO",
             "includePath": [
-                "/home/waoweens/Projects/cerdas-cermat/include",
-                "/home/waoweens/Projects/cerdas-cermat/src",
-                "/home/waoweens/Projects/cerdas-cermat/.pio/libdeps/uno/LiquidCrystal_I2C",
+                "/home/waoweens/Projects/cls-cerdas-cermat/include",
+                "/home/waoweens/Projects/cls-cerdas-cermat/src",
+                "/home/waoweens/Projects/cls-cerdas-cermat/.pio/libdeps/uno/LiquidCrystal_I2C",
                 "/home/waoweens/.platformio/packages/framework-arduino-avr/libraries/Wire/src",
                 "/home/waoweens/.platformio/packages/framework-arduino-avr/cores/arduino",
                 "/home/waoweens/.platformio/packages/framework-arduino-avr/variants/standard",
@@ -23,9 +23,9 @@
             "browse": {
                 "limitSymbolsToIncludedHeaders": true,
                 "path": [
-                    "/home/waoweens/Projects/cerdas-cermat/include",
-                    "/home/waoweens/Projects/cerdas-cermat/src",
-                    "/home/waoweens/Projects/cerdas-cermat/.pio/libdeps/uno/LiquidCrystal_I2C",
+                    "/home/waoweens/Projects/cls-cerdas-cermat/include",
+                    "/home/waoweens/Projects/cls-cerdas-cermat/src",
+                    "/home/waoweens/Projects/cls-cerdas-cermat/.pio/libdeps/uno/LiquidCrystal_I2C",
                     "/home/waoweens/.platformio/packages/framework-arduino-avr/libraries/Wire/src",
                     "/home/waoweens/.platformio/packages/framework-arduino-avr/cores/arduino",
                     "/home/waoweens/.platformio/packages/framework-arduino-avr/variants/standard",
