@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+	<title>Cerdas Cermat</title>
+
+	<style>
+		* {
+			font-family: 'Roboto', sans-serif;
+		}
+
+		.flex-container {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			margin-top: 25px;
+			gap: 10px;
+		}
+
+		.grid-container {
+			display: grid;
+			grid-template-columns: auto auto auto auto;
+		}
+
+		.grid-content {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			text-align: center;
+			border: 10px solid rgba(255, 255, 255, 0)
+		}
+
+		.current-player {
+			border: 10px solid rgba(0, 0, 255, 0.8) !important;
+		}
+
+		.center {
+			text-align: center;
+		}
+
+		.score {
+			font-size: 8em;
+			font-weight: bold;
+		}
+
+		.group-name {
+			font-size: 2em;
+			font-weight: bold;
+		}
+
+		.btn-correct {
+			background-color: #4CAF50;
+			/* Green */
+			border: none;
+			color: white;
+			padding: 15px 32px;
+			text-align: center;
+			text-decoration: none;
+			display: inline-block;
+			font-size: 16px;
+		}
+		.btn-incorrect {
+			background-color: #c04444;
+			/* Green */
+			border: none;
+			color: white;
+			padding: 15px 32px;
+			text-align: center;
+			text-decoration: none;
+			display: inline-block;
+			font-size: 16px;
+		}
+	</style>
+	<script defer>
+		var gateway = `ws://192.168.0.106/ws`;
+		var websocket;
+		var scores;
+		function initWebSocket() {
+			console.log('Trying to open a WebSocket connection...');
+			websocket = new WebSocket(gateway);
+			websocket.onopen = onOpen;
+			websocket.onclose = onClose;
+			websocket.onmessage = onMessage; // <-- add this line
+		}
+		function onOpen(event) {
+			console.log('Connection opened');
+		}
+
+		function onClose(event) {
+			console.log('Connection closed');
+			setTimeout(initWebSocket, 2000);
+		}
+
+		window.addEventListener('load', onLoad);
+
+		function onLoad(event) {
+			initWebSocket();
+		}
+
+		function onMessage(event) {
+			scores = JSON.parse(event.data);
+			console.log(scores);
+			if (scores.currentPlayer == 0) {
+				// delete class current-player from scores
+				document.getElementsByClassName('scores')
+					.forEach(score => {
+						score.classList.remove('current-player');
+					}
+					);
+			}
+			if (scores.currentPlayer == 1) document.getElementById('p1-score').classList.add('current-player');
+			if (scores.currentPlayer == 2) document.getElementById('p2-score').classList.add('current-player');
+			if (scores.currentPlayer == 3) document.getElementById('p3-score').classList.add('current-player');
+			if (scores.currentPlayer == 4) document.getElementById('p4-score').classList.add('current-player');
+
+		}
+
+		function correct() {
+
+		}
+	</script>
+</head>
+
+<body>
+	<h1 class="center">Cerdas Cermat</h1>
+	<div class="grid-container">
+		<div class="grid-content group-name">Group 1</div>
+		<div class="grid-content group-name">Group 2</div>
+		<div class="grid-content group-name">Group 3</div>
+		<div class="grid-content group-name">Group 4</div>
+		<div id="p1-score" class="grid-content score">0</div>
+		<div id="p2-score" class="grid-content score">0</div>
+		<div id="p3-score" class="grid-content score">0</div>
+		<div id="p4-score" class="grid-content score">0</div>
+	</div>
+	<div class="flex-container">
+		<button onclick="correct()" class="btn-correct">Correct</button>
+		<button onclick="incorrect()" class="btn-incorrect">Incorrect</button>
+	</div>
+</body>
+
+</html>
