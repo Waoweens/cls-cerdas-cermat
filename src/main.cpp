@@ -40,6 +40,11 @@ int p2_score = 0;
 int p3_score = 0;
 int p4_score = 0;
 
+char *type;
+int plus;
+bool negative;
+int minus;
+
 const char *html_index PROGMEM = R"+(
 <!DOCTYPE html>
 <html lang="en">
@@ -123,9 +128,7 @@ const char *html_index PROGMEM = R"+(
 		}
 	</style>
 	<script>
-
-
-		var gateway = `ws://192.168.0.106/ws`;
+		var gateway = `ws://${window.location.hostname}/ws`;
 		var websocket;
 		var scores;
 		var currentPlayer;
@@ -151,11 +154,9 @@ const char *html_index PROGMEM = R"+(
 			initWebSocket();
 		}
 
-
-
-		var scorePlusVal = 0;
+		var scorePlusVal = 10;
 		var scoreNegativeVal = false;
-		var scoreMinusVal = 0;
+		var scoreMinusVal = 10;
 
 		document.addEventListener("DOMContentLoaded", () => {
 			var scorePlus = document.getElementById('scorePlus');
@@ -180,8 +181,8 @@ const char *html_index PROGMEM = R"+(
 
 
 		function answer(type) {
-			// websocket.send(`${type},${scorePlusVal},${scoreNegativeVal},${scoreMinusVal}`);
-			websocket.send(type)
+			websocket.send(`${type},${scorePlusVal},${Number(scoreNegativeVal)},${scoreMinusVal}`);
+			// websocket.send(type)
 		}
 
 		function onMessage(event) {
@@ -203,7 +204,6 @@ const char *html_index PROGMEM = R"+(
 			document.getElementById('p3-score').innerHTML = scores.scores[2];
 			document.getElementById('p4-score').innerHTML = scores.scores[3];
 		}
-
 	</script>
 </head>
 
@@ -227,17 +227,17 @@ const char *html_index PROGMEM = R"+(
 
 	<div class="flex-container fc-space">
 		<label for="scorePlus">Increase score by:</label>
-		<input type="text" id="scorePlus" name="scorePlus" value="10" disabled
+		<input type="text" id="scorePlus" name="scorePlus" value="10">
 	</div>
 
 	<div class="flex-container fc-space">
-		<input type="checkbox" id="scoreNegative" name="scoreNegative" disabled>
+		<input type="checkbox" id="scoreNegative" name="scoreNegative">
 		<label for="scoreNegative">Decrease score on incorrect</label>
 	</div>
 
 	<div class="flex-container" style="margin-top: 5px;gap: 10px;">
 		<label for="scoreMinus">Decrease score by:</label>
-		<input type="text" id="scoreMinus" name="scoreMinus" value="10" disabled>
+		<input type="text" id="scoreMinus" name="scoreMinus" value="10">
 	</div>
 
 </body>
@@ -259,30 +259,55 @@ void nextRound() {
 	digitalWrite(p4_lamp, LOW);
 	notifyClients();
 }
-
 void handleWebSocketMessage(void *arg, uint8_t *data, size_t len) {
 	AwsFrameInfo *info = (AwsFrameInfo *)arg;
 	if (info->final && info->index == 0 && info->len == len &&
 		info->opcode == WS_TEXT) {
 		data[len] = 0;
-		if (strcmp((char *)data, "correct") == 0) {
-			if (currentPlayer == 1) p1_score = p1_score + 10;
-			if (currentPlayer == 2) p2_score = p2_score + 10;
-			if (currentPlayer == 3) p3_score = p3_score + 10;
-			if (currentPlayer == 4) p4_score = p4_score + 10;
-			nextRound();
-		}
-		if (strcmp((char *)data, "incorrect") == 0) {
-			nextRound();
-		}
 
-
-		// char *d = strtok((char*)data, ",");
-		// while (d != NULL) {
-		// 	Serial.println(d);
-		// 	d = strtok(NULL, ",");
+		// if (strcmp((char *)data, "correct") == 0) {
+		// 	if (currentPlayer == 1) p1_score = p1_score + 10;
+		// 	if (currentPlayer == 2) p2_score = p2_score + 10;
+		// 	if (currentPlayer == 3) p3_score = p3_score + 10;
+		// 	if (currentPlayer == 4) p4_score = p4_score + 10;
+		// 	nextRound();
+		// }
+		// if (strcmp((char *)data, "incorrect") == 0) {
+		// 	nextRound();
 		// }
 
+		Serial.println((char *)data);
+
+		type = strtok((char *)data, ",");
+		plus = atoi(strtok(NULL, ","));
+		negative = (bool)atoi(strtok(NULL, ","));
+		minus = atoi(strtok(NULL, ","));
+		Serial.print("type: ");
+		Serial.println(type);
+		Serial.print("plus: ");
+		Serial.println(plus);
+		Serial.print("negative: ");
+		Serial.println(negative);
+		Serial.print("minus: ");
+		Serial.println(minus);
+
+		if (strcmp(type, "correct") == 0) {
+			if (currentPlayer == 1) p1_score = p1_score + plus;
+			if (currentPlayer == 2) p2_score = p2_score + plus;
+			if (currentPlayer == 3) p3_score = p3_score + plus;
+			if (currentPlayer == 4) p4_score = p4_score + plus;
+			nextRound();
+		}
+
+		if (strcmp(type, "incorrect") == 0) {
+			if (negative == 1) {
+				if (currentPlayer == 1) p1_score = p1_score - minus;
+				if (currentPlayer == 2) p2_score = p2_score - minus;
+				if (currentPlayer == 3) p3_score = p3_score - minus;
+				if (currentPlayer == 4) p4_score = p4_score - minus;
+			}
+			nextRound();
+		}
 	}
 }
 
@@ -330,10 +355,13 @@ void setup() {
 	WiFi.begin(ssid, password);
 
 	while (WiFi.status() != WL_CONNECTED) {
-		Serial.print(".");
 		delay(500);
 	}
+
+	Serial.print(">");
+	Serial.print("IPADDR");
 	Serial.print(WiFi.localIP());
+	Serial.println("<");
 
 	// lcd.init();
 	// lcd.backlight();

@@ -80,8 +80,6 @@
 		}
 	</style>
 	<script>
-
-
 		var gateway = `ws://192.168.0.106/ws`;
 		var websocket;
 		var scores;
@@ -108,11 +106,9 @@
 			initWebSocket();
 		}
 
-
-
-		var scorePlusVal = 0;
+		var scorePlusVal = 10;
 		var scoreNegativeVal = false;
-		var scoreMinusVal = 0;
+		var scoreMinusVal = 10;
 
 		document.addEventListener("DOMContentLoaded", () => {
 			var scorePlus = document.getElementById('scorePlus');
@@ -137,8 +133,8 @@
 
 
 		function answer(type) {
-			// websocket.send(`${type},${scorePlusVal},${scoreNegativeVal},${scoreMinusVal}`);
-			websocket.send(type)
+			websocket.send(`${type},${scorePlusVal},${Number(scoreNegativeVal)},${scoreMinusVal}`);
+			// websocket.send(type)
 		}
 
 		function onMessage(event) {
@@ -160,7 +156,6 @@
 			document.getElementById('p3-score').innerHTML = scores.scores[2];
 			document.getElementById('p4-score').innerHTML = scores.scores[3];
 		}
-
 	</script>
 </head>
 
@@ -184,17 +179,17 @@
 
 	<div class="flex-container fc-space">
 		<label for="scorePlus">Increase score by:</label>
-		<input type="text" id="scorePlus" name="scorePlus" value="10" disabled
+		<input type="text" id="scorePlus" name="scorePlus" value="10">
 	</div>
 
 	<div class="flex-container fc-space">
-		<input type="checkbox" id="scoreNegative" name="scoreNegative" disabled>
+		<input type="checkbox" id="scoreNegative" name="scoreNegative">
 		<label for="scoreNegative">Decrease score on incorrect</label>
 	</div>
 
 	<div class="flex-container" style="margin-top: 5px;gap: 10px;">
 		<label for="scoreMinus">Decrease score by:</label>
-		<input type="text" id="scoreMinus" name="scoreMinus" value="10" disabled>
+		<input type="text" id="scoreMinus" name="scoreMinus" value="10">
 	</div>
 
 </body>
