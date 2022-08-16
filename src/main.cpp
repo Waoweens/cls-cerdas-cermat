@@ -19,8 +19,8 @@
 AsyncWebServer server(80);
 AsyncWebSocket ws("/ws");
 
-const char *ssid = "KooshaWi-Fi1 2.4GHz";
-const char *password = "theawiligar144";
+const char *ssid = "CLS";
+const char *password = "cls.sch.id";
 
 const int p1_btn = 0;
 const int p2_btn = 2;
@@ -50,6 +50,9 @@ const char *html_index PROGMEM = R"+(
 <html lang="en">
 
 <head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
@@ -74,11 +77,12 @@ const char *html_index PROGMEM = R"+(
 
 		.grid-container {
 			display: grid;
-			grid-template-columns: auto auto auto auto;
+			grid-template-columns: repeat(auto-fit, auto);
 		}
 
 		.grid-content {
 			display: flex;
+			flex-direction: column;
 			align-items: center;
 			justify-content: center;
 			text-align: center;
@@ -210,15 +214,24 @@ const char *html_index PROGMEM = R"+(
 <body>
 	<h1 class="center">Cerdas Cermat</h1>
 	<div class="grid-container">
-		<div class="grid-content group-name">Group 1</div>
-		<div class="grid-content group-name">Group 2</div>
-		<div class="grid-content group-name">Group 3</div>
-		<div class="grid-content group-name">Group 4</div>
-		<div id="p1-score" class="grid-content score">0</div>
-		<div id="p2-score" class="grid-content score">0</div>
-		<div id="p3-score" class="grid-content score">0</div>
-		<div id="p4-score" class="grid-content score">0</div>
+		<div class="grid-content">
+			<div class="grid-content group-name">Group 1</div>
+			<div id="p1-score" class="grid-content score">0</div>
+		</div>
+		<div class="grid-content">
+			<div class="grid-content group-name">Group 2</div>
+			<div id="p2-score" class="grid-content score">0</div>
+		</div>
+		<div class="grid-content">
+			<div class="grid-content group-name">Group 3</div>
+			<div id="p3-score" class="grid-content score">0</div>
+		</div class="grid-content">
+		<div class="grid-content">
+			<div class="grid-content group-name">Group 4</div>
+			<div id="p4-score" class="grid-content score">0</div>
+		</div>
 	</div>
+
 
 	<div class="flex-container fc-space">
 		<button onclick="answer('correct')" class="btn-correct">Correct</button>
